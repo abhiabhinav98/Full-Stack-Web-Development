@@ -1,16 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, CardImg, CardBody,CardText, CardTitle} from "reactstrap";
 
-class Dishdetail extends Component {
 
-    constructor(props){
-        super(props)
-        this.state = {
-
-        }
-    }
-
-    formatDate({ date }) {
+    function formatDate({ date }) {
         return new Date(date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
@@ -18,7 +10,7 @@ class Dishdetail extends Component {
         });
       }
 
-    renderDish(dish) {
+    function RenderDish({dish}) {
         if (dish != null) {
             return(
                 <Card>
@@ -37,7 +29,7 @@ class Dishdetail extends Component {
         }
     }
 
-    renderComments(comments){
+    function RenderComments({comments}){
         if (comments != null) {
 
             let list = comments.map((comments)=>{
@@ -48,7 +40,7 @@ class Dishdetail extends Component {
                     <li key={comments.id} >
                         <div>
                             <p>{comments.comment}</p>
-                            <p>--{comments.author}, {this.formatDate({date})}</p>
+                            <p>--{comments.author}, {formatDate({date})}</p>
                         </div>
                     </li>
 
@@ -71,17 +63,17 @@ class Dishdetail extends Component {
         }
     }
 
-    render(){
-        const {dish} = this.props;
-        console.log(dish);
+    const DishDetail = (props) => {
+        const {dish} = props;
+        console.log('dishdetail component render invoked');
 
         return dish?(
             <div className="row">
                 <div className="col-12 col-md-5 m-1">
-                    {this.renderDish(dish)}
+                    <RenderDish dish={dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    {this.renderComments(dish.comments)}
+                    <RenderComments comments={dish.comments }/>
                 </div>
             </div>
         ):(
@@ -89,6 +81,4 @@ class Dishdetail extends Component {
         )
     }
 
-}
-
-export default Dishdetail
+export default DishDetail;

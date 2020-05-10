@@ -3,6 +3,12 @@ import { Breadcrumb, BreadcrumbItem, Button, Label, Row, Col } from 'reactstrap'
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len);
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+
 class Contact extends Component {
 
     constructor(props){
@@ -65,7 +71,20 @@ class Contact extends Component {
                             <Row className='form-group'>
                                 <Label htmlFor = "firstname" md={2}>First Name</Label>
                                 <Col md={10}>
-                                    <Control.text model=".firstname" className="form-control" id="firstname" name="firstname" placeholder="First Name" />
+                                    <Control.text model=".firstname" className="form-control" id="firstname" name="firstname" placeholder="First Name"
+                                    validators={{
+                                        required, minLength: minLength(3), maxLength: maxLength(15)
+                                    }} />
+                                <Errors 
+                                    className="text-danger"
+                                    model=".firstname"
+                                    show="touched"
+                                    messages={{
+                                        required: 'Required',
+                                        minLength: 'Must be greater than 2 characters',
+                                        maxLength: 'Must be less than 16 characters'
+                                    }}
+                                />
                                     
                                 </Col>
                             </Row>
@@ -73,7 +92,20 @@ class Contact extends Component {
                             <Row className='form-group'>
                                 <Label htmlFor = "lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
-                                    <Control.text model=".lastname" className="form-control" name="lastname" placeholder="Last Name"  />
+                                    <Control.text model=".lastname" className="form-control" name="lastname" placeholder="Last Name" 
+                                    validators={{
+                                        required, minLength: minLength(3), maxLength: maxLength(15)
+                                    }} />
+                                    <Errors 
+                                    className="text-danger"
+                                    model=".lastname"
+                                    show="touched"
+                                    messages={{
+                                        required: 'Required',
+                                        minLength: 'Must be greater than 2 characters',
+                                        maxLength: 'Must be less than 16 characters'
+                                    }}
+                                />
                                     
                                 </Col>
                             </Row>
@@ -81,16 +113,40 @@ class Contact extends Component {
                             <Row className='form-group'>
                                 <Label htmlFor = "telnum" md={2}>Contact Tel.</Label>
                                 <Col md={10}>
-                                    <Control.text model=".telnum" className="form-control" name="telnum" placeholder="telephone no." />
-                                    
+                                    <Control.text model=".telnum" className="form-control" name="telnum" placeholder="telephone no."
+                                    validators={{
+                                        required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                    }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".telnum"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 numbers',
+                                            maxLength: 'Must be 15 numbers or less',
+                                            isNumber: 'Must be a number'
+                                        }}
+                                     />
                                 </Col>
                             </Row>
 
                             <Row className='form-group'>
                                 <Label htmlFor = "email" md={2}>Email</Label>
                                 <Col md={10}>
-                                    <Control.text model=".email" className="form-control" name="email" placeholder="email"  />
-                                    
+                                    <Control.text model=".email" className="form-control" name="email" placeholder="email" 
+                                    validators={{
+                                        required, validEmail
+                                    }} />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".email"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            validEmail: 'Invalid Email Address'
+                                        }}
+                                     />
                                 </Col>
                             </Row>
 

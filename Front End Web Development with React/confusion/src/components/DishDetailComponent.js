@@ -20,8 +20,9 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
         }
 
         handleSubmit(values) {
-            console.log(JSON.stringify(values));
-            alert('' + JSON.stringify(values));
+            this.toggleModal();
+            this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+            console.log(this.props.dishId+ values.rating+ values.author+ values.comment);
         }
 
         toggleModal() {
@@ -120,7 +121,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
         }
     }
 
-    function RenderComments({comments}){
+    function RenderComments({comments, addComment, dishId}){
         if (comments != null) {
 
             let list = comments.map((comments)=>{
@@ -144,7 +145,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                     <ul className="list-unstyled">
                         {list}
                     </ul>
-                    <CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment} />
 
                    
                 </div>
@@ -159,10 +160,11 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 
 
     const DishDetail = (props) => {
-        //console.log('dishdetail component render invoked');
-
+        console.log('dishdetail component render invoked'+ props.dish.id);
+        //console.log(props);
         if(props.dish != null)
         return (
+            
             <div className = 'container'>
                 <div className="row">
                     <Breadcrumb>
@@ -178,7 +180,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments}/>
+                        <RenderComments comments={props.comments} addComment={props.addComment} dishId = {props.dish.id}/>
                     </div>
                 </div>
             </div>

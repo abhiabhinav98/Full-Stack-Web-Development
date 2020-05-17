@@ -97,14 +97,6 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
     }
 
-    function formatDate({ date }) {
-        return new Date(date).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric"
-        });
-      }
-
     function RenderDish({dish}) {
         if (dish != null) {
             return(
